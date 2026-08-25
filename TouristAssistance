@@ -1,0 +1,203 @@
+import { useState } from "react";
+import { LocationData, getScoreColor } from "../data/locations";
+
+interface TouristAssistantProps {
+  data: LocationData;
+}
+
+const USE_CASES = [
+  { icon: "🧳", title: "Tourists", desc: "Find better-connected areas and navigate with confidence." },
+  { icon: "✈️", title: "Travelers", desc: "Understand connectivity quality before embarking on your journey." },
+  { icon: "💻", title: "Remote Workers", desc: "Identify reliable locations for productive remote working." },
+  { icon: "🔧", title: "Field Engineers", desc: "Collect structured network measurements for infrastructure planning." },
+  { icon: "🏛️", title: "Tourism Authorities", desc: "Identify and resolve connectivity gaps across destinations." },
+  { icon: "📡", title: "Network Planning", desc: "Analyze aggregated connectivity data for infrastructure decisions." },
+];
+
+const DIR_ARROW: Record<string, string> = {
+  N: "↑", NE: "↗", E: "→", SE: "↘", S: "↓", SW: "↙", W: "←", NW: "↖",
+};
+
+export default function TouristAssistant({ data }: TouristAssistantProps) {
+  const [finding, setFinding] = useState(false);
+  const [found, setFound] = useState(false);
+
+  const handleFind = () => {
+    setFinding(true);
+    setFound(false);
+    setTimeout(() => { setFinding(false); setFound(true); }, 2000);
+  };
+
+  const arrowDir = Object.entries({
+    N: 0, NE: 45, E: 90, SE: 135, S: 180, SW: 225, W: 270, NW: 315,
+  })[Object.keys({ N: 0, NE: 45, E: 90, SE: 135, S: 180, SW: 225, W: 270, NW: 315 }).indexOf(
+    data.touristBestDir.replace("North-East", "NE").replace("North-West", "NW").replace("South-East", "SE").replace("South-West", "SW").replace("North", "N").replace("South", "S").replace("West", "W").replace("East", "E")
+  )];
+
+  return (
+    <section id="tourism" className="section-pad px-4 sm:px-6" style={{ background: "#030f22" }}>
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-10">
+          <span className="tag-prototype">🧭 Tourist Intelligence</span>
+          <h2 className="font-display font-800 text-2xl sm:text-3xl mt-3" style={{ color: "#e8f4ff", fontWeight: 800 }}>
+            Tourist Connectivity Assistant
+          </h2>
+          <p style={{ color: "#7090b0", marginTop: "0.5rem" }}>
+            Intelligent connectivity guidance for visitors in {data.name}.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+          {/* Main panel */}
+          <div className="glass rounded-2xl p-8">
+            {/* Current connectivity */}
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <div style={{ color: "#5580a0", fontSize: "0.68rem", fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.08em" }}>Current Connectivity</div>
+                <div className="font-display font-900 text-5xl mt-1" style={{ color: getScoreColor(data.touristScore) }}>{data.touristScore}</div>
+                <div style={{ color: "#7090b0", fontSize: "0.75rem" }}>/100</div>
+              </div>
+
+              {/* Direction arrow */}
+              <div className="relative flex items-center justify-center">
+                <div
+                  className="w-24 h-24 rounded-full flex items-center justify-center text-5xl font-bold"
+                  style={{
+                    background: "rgba(0,212,255,0.06)",
+                    border: "2px solid rgba(0,212,255,0.2)",
+                    color: "#00d4ff",
+                    animation: found ? "pulse-ring 2s ease-in-out infinite" : "none",
+                  }}
+                >
+                  {DIR_ARROW[data.touristBestDir.replace("North-East", "NE").replace("North-West", "NW").replace("South-East", "SE").replace("South-West", "SW").replace("North", "N").replace("South", "S").replace("West", "W").replace("East", "E")] || "→"}
+                </div>
+                <div
+                  className="absolute -bottom-1 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full text-xs font-mono-data"
+                  style={{ background: "rgba(0,212,255,0.15)", color: "#00d4ff", whiteSpace: "nowrap" }}
+                >
+                  {data.touristBestDir}
+                </div>
+              </div>
+            </div>
+
+            {/* Metrics */}
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              {[
+                { label: "Best Nearby Direction", value: data.touristBestDir, color: "#00d4ff" },
+                { label: "Best Connectivity Zone", value: data.touristZone, color: "#00e676" },
+                { label: "Recommended Movement", value: data.touristMovement, color: "#ffbe00" },
+                { label: "Network", value: data.touristNetwork, color: "#00d4ff" },
+                { label: "Expected Performance", value: data.touristExpected, color: getScoreColor(data.touristScore) },
+              ].map((m) => (
+                <div key={m.label} className="rounded-xl p-3" style={{ background: "rgba(0,0,0,0.2)", border: "1px solid rgba(0,212,255,0.06)" }}>
+                  <div style={{ color: "#5580a0", fontSize: "0.62rem", fontFamily: "var(--font-mono)", textTransform: "uppercase", marginBottom: "0.25rem" }}>{m.label}</div>
+                  <div className="font-display font-600 text-sm" style={{ color: m.color }}>{m.value}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Find button */}
+            <button
+              onClick={handleFind}
+              disabled={finding}
+              className="w-full py-4 rounded-xl font-display font-700 text-base transition-all"
+              style={{
+                background: finding ? "rgba(0,212,255,0.1)" : found ? "rgba(0,230,118,0.15)" : "linear-gradient(135deg, #00d4ff, #0080ff)",
+                color: finding || found ? (found ? "#00e676" : "#00d4ff") : "#020c1a",
+                border: (finding || found) ? `1px solid ${found ? "rgba(0,230,118,0.4)" : "rgba(0,212,255,0.3)"}` : "none",
+                letterSpacing: "0.04em",
+                boxShadow: (!finding && !found) ? "0 0 30px rgba(0,212,255,0.3)" : "none",
+              }}
+            >
+              {finding ? "Scanning for better connectivity..." : found ? "✓ Better Zone Found — " + data.touristMovement : "FIND BETTER CONNECTIVITY"}
+            </button>
+          </div>
+
+          {/* Map visualization */}
+          <div className="glass rounded-2xl p-6">
+            <h3 className="font-display font-600 text-sm mb-4" style={{ color: "#e8f4ff" }}>Connectivity Intelligence Map</h3>
+
+            <div
+              className="relative rounded-xl overflow-hidden mb-4"
+              style={{
+                height: "250px",
+                background: "linear-gradient(135deg, #061424, #0a1f3a)",
+                border: "1px solid rgba(0,212,255,0.1)",
+              }}
+            >
+              {/* Grid */}
+              <svg className="absolute inset-0 w-full h-full" style={{ opacity: 0.1 }}>
+                {[25, 50, 75].map((p) => (
+                  <g key={p}>
+                    <line x1="0" y1={`${p}%`} x2="100%" y2={`${p}%`} stroke="#00d4ff" strokeWidth="1" />
+                    <line x1={`${p}%`} y1="0" x2={`${p}%`} y2="100%" stroke="#00d4ff" strokeWidth="1" />
+                  </g>
+                ))}
+              </svg>
+
+              {/* User location */}
+              <div
+                className="absolute"
+                style={{ left: "50%", top: "60%", transform: "translate(-50%,-50%)" }}
+              >
+                <div className="w-4 h-4 rounded-full animate-pulse-ring" style={{ background: "#00d4ff", boxShadow: "0 0 20px #00d4ff" }} />
+                <div style={{ color: "#00d4ff", fontSize: "0.6rem", fontFamily: "var(--font-mono)", textAlign: "center", marginTop: "4px", whiteSpace: "nowrap" }}>You</div>
+              </div>
+
+              {/* Target zone */}
+              {found && (
+                <div
+                  className="absolute"
+                  style={{ left: "70%", top: "40%", transform: "translate(-50%,-50%)" }}
+                >
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "rgba(0,230,118,0.15)", border: "2px solid #00e676", boxShadow: "0 0 20px rgba(0,230,118,0.3)" }}>
+                    <div className="w-3 h-3 rounded-full" style={{ background: "#00e676" }} />
+                  </div>
+                  <div style={{ color: "#00e676", fontSize: "0.6rem", fontFamily: "var(--font-mono)", textAlign: "center", marginTop: "4px", whiteSpace: "nowrap" }}>Better Zone</div>
+                </div>
+              )}
+
+              {/* Arrow */}
+              {found && (
+                <svg className="absolute inset-0 w-full h-full" style={{ pointerEvents: "none" }}>
+                  <defs>
+                    <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+                      <path d="M0,0 L6,3 L0,6 Z" fill="#00e676" />
+                    </marker>
+                  </defs>
+                  <line x1="50%" y1="60%" x2="68%" y2="41%" stroke="#00e676" strokeWidth="2" strokeDasharray="4 3" markerEnd="url(#arr)" />
+                </svg>
+              )}
+
+              <div className="absolute top-3 left-3">
+                <span className="tag-prototype" style={{ fontSize: "0.6rem" }}>Sample Visualization</span>
+              </div>
+            </div>
+
+            <p style={{ color: "#7090b0", fontSize: "0.78rem", lineHeight: 1.6 }}>
+              Move <strong style={{ color: "#ffbe00" }}>{data.touristMovement}</strong> to reach{" "}
+              <strong style={{ color: "#00e676" }}>{data.touristZone}</strong> for{" "}
+              <strong style={{ color: "#00d4ff" }}>{data.touristExpected}</strong> connectivity.
+            </p>
+          </div>
+        </div>
+
+        {/* Use cases */}
+        <div>
+          <h3 className="font-display font-600 text-lg mb-6" style={{ color: "#e8f4ff" }}>Who Uses NetCompass?</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {USE_CASES.map((u) => (
+              <div key={u.title} className="metric-card flex gap-4">
+                <span className="text-2xl">{u.icon}</span>
+                <div>
+                  <div className="font-display font-600 text-sm mb-1" style={{ color: "#e8f4ff" }}>{u.title}</div>
+                  <div style={{ color: "#7090b0", fontSize: "0.78rem", lineHeight: 1.5 }}>{u.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
