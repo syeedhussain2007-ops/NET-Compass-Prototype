@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --color-nc-bg: #020c1a;
+  --color-nc-surface: #061424;
+  --color-nc-card: #0a1f3a;
+  --color-nc-border: rgba(0, 212, 255, 0.12);
+  --color-nc-cyan: #00d4ff;
+  --color-nc-blue: #0080ff;
+  --color-nc-green: #00e676;
+  --color-nc-yellow: #ffbe00;
+  --color-nc-red: #ff4444;
+  --color-nc-text: #d0e8ff;
+  --color-nc-muted: #5580a0;
+  --font-display: 'Exo 2', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+html, body {
+  background-color: #020c1a;
+  color: #d0e8ff;
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
