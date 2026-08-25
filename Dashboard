@@ -1,0 +1,175 @@
+import { LocationData, getScoreColor } from "../data/locations";
+
+interface DashboardProps {
+  data: LocationData;
+  onScan: () => void;
+}
+
+function CircleScore({ score, size = 120 }: { score: number; size?: number }) {
+  const r = (size - 16) / 2;
+  const circ = 2 * Math.PI * r;
+  const fill = (score / 100) * circ;
+  const color = getScoreColor(score);
+
+  return (
+    <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
+      <svg width={size} height={size} className="score-ring -rotate-90">
+        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(0,212,255,0.08)" strokeWidth="8" />
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={r}
+          fill="none"
+          stroke={color}
+          strokeWidth="8"
+          strokeDasharray={`${fill} ${circ}`}
+          strokeLinecap="round"
+          style={{ filter: `drop-shadow(0 0 6px ${color})` }}
+        />
+      </svg>
+      <div className="absolute text-center">
+        <div className="font-display font-900 leading-none" style={{ color, fontSize: size * 0.24 }}>{score}</div>
+        <div style={{ color: "#7090b0", fontSize: size * 0.1, fontFamily: "var(--font-mono)" }}>/ 100</div>
+      </div>
+    </div>
+  );
+}
+
+function MetricCard({ label, value, unit, sub, color = "#00d4ff" }: {
+  label: string; value: string | number; unit: string; sub?: string; color?: string;
+}) {
+  return (
+    <div className="metric-card">
+      <div style={{ color: "#5580a0", fontSize: "0.7rem", fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "0.4rem" }}>{label}</div>
+      <div className="flex items-baseline gap-1">
+        <span className="font-display font-700" style={{ color, fontSize: "1.5rem" }}>{value}</span>
+        <span style={{ color: "#7090b0", fontSize: "0.75rem", fontFamily: "var(--font-mono)" }}>{unit}</span>
+      </div>
+      {sub && <div style={{ color: "#5580a0", fontSize: "0.68rem", marginTop: "0.25rem", fontFamily: "var(--font-mono)" }}>{sub}</div>}
+    </div>
+  );
+}
+
+export default function Dashboard({ data, onScan }: DashboardProps) {
+  const scoreColor = getScoreColor(data.score);
+  const bestScore = data.directions[data.bestDir];
+
+  return (
+    <section id="dashboard" className="section-pad px-4 sm:px-6" style={{ background: "linear-gradient(180deg, #020c1a 0%, #030f22 100%)" }}>
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-10">
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="tag-prototype">◉ Live Dashboard</span>
+            </div>
+            <h2 className="font-display font-800 text-2xl sm:text-3xl" style={{ color: "#e8f4ff", fontWeight: 800 }}>
+              Current Connectivity
+            </h2>
+            <div className="flex items-center gap-2 mt-1">
+              <span>📍</span>
+              <span style={{ color: "#00d4ff", fontFamily: "var(--font-mono)", fontSize: "0.85rem" }}>
+                {data.name}, {data.state}
+              </span>
+            </div>
+          </div>
+          <button
+            onClick={onScan}
+            className="px-6 py-2.5 rounded-lg font-display font-600 text-sm flex items-center gap-2"
+            style={{
+              background: "linear-gradient(135deg, #00d4ff, #0080ff)",
+              color: "#020c1a",
+              fontWeight: 700,
+              boxShadow: "0 0 20px rgba(0,212,255,0.25)",
+            }}
+          >
+            <span>⊙</span> Start 360° Scan
+          </button>
+        </div>
+
+        {/* Main content */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Score column */}
+          <div
+            className="glass rounded-2xl p-8 flex flex-col items-center justify-center gap-4"
+            style={{ gridRow: "span 2" }}
+          >
+            <CircleScore score={data.score} size={180} />
+            <div className="text-center">
+              <div className="font-display font-700 text-lg" style={{ color: scoreColor }}>{data.label}</div>
+              <div style={{ color: "#5580a0", fontSize: "0.72rem", fontFamily: "var(--font-mono)", marginTop: "0.25rem" }}>CONNECTIVITY SCORE</div>
+            </div>
+
+            {/* Best direction badge */}
+            <div
+              className="w-full rounded-xl p-4 mt-2"
+              style={{
+                background: "rgba(0,230,118,0.06)",
+                border: "1px solid rgba(0,230,118,0.2)",
+              }}
+            >
+              <div style={{ color: "#5580a0", fontSize: "0.68rem", fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "0.4rem" }}>Best Direction</div>
+              <div className="flex items-center justify-between">
+                <span className="font-display font-700 text-lg" style={{ color: "#00e676" }}>
+                  {data.bestDir === "NE" ? "NORTH-EAST" : data.bestDir === "NW" ? "NORTH-WEST" : data.bestDir === "SE" ? "SOUTH-EAST" : data.bestDir === "SW" ? "SOUTH-WEST" : data.bestDir}
+                </span>
+                <span
+                  className="font-display font-700"
+                  style={{ color: "#00e676", background: "rgba(0,230,118,0.12)", padding: "0.2rem 0.6rem", borderRadius: "6px", fontSize: "0.9rem" }}
+                >
+                  {bestScore}/100
+                </span>
+              </div>
+              <p style={{ color: "#7090b0", fontSize: "0.72rem", marginTop: "0.5rem" }}>
+                Move toward the {data.bestDir === "NE" ? "North-East" : data.bestDir === "NW" ? "North-West" : data.bestDir === "SE" ? "South-East" : data.bestDir === "SW" ? "South-West" : data.bestDir} for improved cellular connectivity.
+              </p>
+            </div>
+          </div>
+
+          {/* Metrics grid */}
+          <div className="lg:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-4">
+            <MetricCard label="Network" value={data.network} unit="" color="#00d4ff" />
+            <MetricCard label="Signal Strength" value={data.signal} unit="dBm" color={getScoreColor(data.signalQuality)} />
+            <MetricCard label="Signal Quality" value={data.signalQuality} unit="%" color={getScoreColor(data.signalQuality)} />
+            <MetricCard label="Download" value={data.download} unit="Mbps" color="#00e676" />
+            <MetricCard label="Upload" value={data.upload} unit="Mbps" color="#00e676" />
+            <MetricCard label="Latency" value={data.latency} unit="ms" color={data.latency < 50 ? "#00e676" : data.latency < 80 ? "#ffbe00" : "#ff4444"} />
+            <MetricCard label="Packet Loss" value={data.packetLoss} unit="%" color={data.packetLoss < 2 ? "#00e676" : "#ffbe00"} />
+            <MetricCard label="Network Type" value={data.network} unit="" sub="Active Band" color="#0080ff" />
+            <MetricCard label="Reliability" value={data.reliabilityScore} unit="/100" color={getScoreColor(data.reliabilityScore)} />
+          </div>
+
+          {/* Network bars */}
+          <div className="lg:col-span-2 glass rounded-2xl p-6">
+            <h3 className="font-display font-600 text-sm mb-4" style={{ color: "#e8f4ff" }}>Directional Signal Overview</h3>
+            <div className="space-y-3">
+              {(Object.entries(data.directions) as [string, number][]).map(([dir, val]) => {
+                const isDir = dir === data.bestDir;
+                const c = getScoreColor(val);
+                return (
+                  <div key={dir} className="flex items-center gap-3">
+                    <span
+                      className="font-mono-data text-xs w-6 text-right"
+                      style={{ color: isDir ? "#00e676" : "#5580a0" }}
+                    >{dir}</span>
+                    <div className="flex-1 progress-bar">
+                      <div
+                        className="progress-fill"
+                        style={{ width: `${val}%`, background: c, boxShadow: isDir ? `0 0 8px ${c}` : "none" }}
+                      />
+                    </div>
+                    <span
+                      className="font-mono-data text-xs w-8 text-right"
+                      style={{ color: isDir ? "#00e676" : "#7090b0" }}
+                    >{val}</span>
+                    {isDir && <span style={{ fontSize: "0.65rem", color: "#00e676", fontFamily: "var(--font-mono)" }}>BEST</span>}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
