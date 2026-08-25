@@ -1,0 +1,104 @@
+export default function FutureAI() {
+  const features = [
+    {
+      icon: "🗺️",
+      title: "Coverage Prediction",
+      desc: "Predict weak-connectivity areas using historical measurement patterns and terrain analysis.",
+      tag: "Future Development",
+    },
+    {
+      icon: "💡",
+      title: "Smart Recommendation",
+      desc: "AI-powered direction and location recommendations based on historical directional data.",
+      tag: "Future Development",
+    },
+    {
+      icon: "⚠️",
+      title: "Anomaly Detection",
+      desc: "Automatically detect sudden network degradation events and alert users in real time.",
+      tag: "Future Development",
+    },
+    {
+      icon: "📅",
+      title: "Connectivity Forecast",
+      desc: "Estimate future connectivity quality using time-of-day and historical seasonal patterns.",
+      tag: "Future Development",
+    },
+    {
+      icon: "🛣️",
+      title: "Intelligent Tourism Routing",
+      desc: "Recommend travel routes and tourist spots with predicted better cellular connectivity.",
+      tag: "Future Development",
+    },
+    {
+      icon: "🔮",
+      title: "Predictive Gap Detection",
+      desc: "Identify emerging connectivity gaps before they affect users — proactive infrastructure insights.",
+      tag: "Future Development",
+    },
+  ];
+
+  return (
+    <section className="section-pad px-4 sm:px-6" style={{ background: "#030f22" }}>
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-10">
+          <span className="tag-prototype" style={{ background: "rgba(168,85,247,0.1)", borderColor: "rgba(168,85,247,0.3)", color: "#a855f7" }}>
+            🔮 Future Intelligence — Not Yet Implemented
+          </span>
+          <h2 className="font-display font-800 text-2xl sm:text-3xl mt-3" style={{ color: "#e8f4ff", fontWeight: 800 }}>
+            Future AI Intelligence
+          </h2>
+          <p style={{ color: "#7090b0", marginTop: "0.5rem", maxWidth: "560px" }}>
+            Planned AI and machine learning capabilities for the next generation of NetCompass. These features are in design phase and not currently active.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {features.map((f) => (
+            <div
+              key={f.title}
+              className="rounded-2xl p-6 transition-all"
+              style={{
+                background: "rgba(168,85,247,0.04)",
+                border: "1px solid rgba(168,85,247,0.12)",
+              }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(168,85,247,0.3)"; (e.currentTarget as HTMLDivElement).style.boxShadow = "0 0 20px rgba(168,85,247,0.08)"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(168,85,247,0.12)"; (e.currentTarget as HTMLDivElement).style.boxShadow = "none"; }}
+            >
+              <div className="text-3xl mb-4">{f.icon}</div>
+              <div className="font-display font-700 text-base mb-2" style={{ color: "#e8f4ff" }}>{f.title}</div>
+              <div style={{ color: "#7090b0", fontSize: "0.8rem", lineHeight: 1.6, marginBottom: "1rem" }}>{f.desc}</div>
+              <span
+                style={{
+                  display: "inline-block",
+                  background: "rgba(168,85,247,0.1)",
+                  border: "1px solid rgba(168,85,247,0.2)",
+                  color: "#a855f7",
+                  borderRadius: "100px",
+                  padding: "0.15rem 0.6rem",
+                  fontSize: "0.62rem",
+                  fontFamily: "var(--font-mono)",
+                  letterSpacing: "0.04em",
+                  textTransform: "uppercase",
+                }}
+              >
+                {f.tag}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        <div
+          className="mt-8 rounded-2xl p-6"
+          style={{ background: "rgba(168,85,247,0.04)", border: "1px solid rgba(168,85,247,0.12)" }}
+        >
+          <p style={{ color: "#7090b0", fontSize: "0.85rem", lineHeight: 1.7, textAlign: "center" }}>
+            ⚠️ All AI features listed above are planned for future development phases. Current NetCompass operates as a{" "}
+            <span style={{ color: "#ffbe00" }}>software prototype</span> using sample/demo data only.
+            Do not interpret demo insights as real-time AI predictions.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
