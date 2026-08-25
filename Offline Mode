@@ -1,0 +1,107 @@
+import { useState } from "react";
+
+export default function OfflineMode() {
+  const [syncing, setSyncing] = useState(false);
+  const [synced, setSynced] = useState(false);
+
+  const handleSync = () => {
+    setSyncing(true);
+    setSynced(false);
+    setTimeout(() => { setSyncing(false); setSynced(true); }, 2500);
+  };
+
+  return (
+    <section className="section-pad px-4 sm:px-6" style={{ background: "#020c1a" }}>
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-10">
+          <span className="tag-prototype" style={{ background: "rgba(255,190,0,0.08)", borderColor: "rgba(255,190,0,0.25)", color: "#ffbe00" }}>
+            📴 Offline Capability — Future
+          </span>
+          <h2 className="font-display font-800 text-2xl sm:text-3xl mt-3" style={{ color: "#e8f4ff", fontWeight: 800 }}>
+            Offline Measurement Mode
+          </h2>
+          <p style={{ color: "#7090b0", marginTop: "0.5rem" }}>
+            Continue measuring even without internet — sync when connectivity returns.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Status panel */}
+          <div className="glass rounded-2xl p-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div
+                className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl"
+                style={{ background: "rgba(255,68,68,0.1)", border: "1px solid rgba(255,68,68,0.2)" }}
+              >
+                📴
+              </div>
+              <div>
+                <div className="font-display font-700 text-sm" style={{ color: "#ff6666" }}>Offline Mode</div>
+                <div style={{ color: "#5580a0", fontSize: "0.72rem", fontFamily: "var(--font-mono)" }}>Internet connectivity unavailable</div>
+              </div>
+            </div>
+
+            <div
+              className="rounded-2xl p-6 mb-6"
+              style={{ background: "rgba(255,190,0,0.05)", border: "1px solid rgba(255,190,0,0.15)" }}
+            >
+              <div style={{ color: "#5580a0", fontSize: "0.68rem", fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "0.5rem" }}>
+                Measurements Stored Locally
+              </div>
+              <div className="font-display font-900 text-5xl" style={{ color: "#ffbe00" }}>24</div>
+              <div style={{ color: "#7090b0", fontSize: "0.75rem", marginTop: "0.5rem" }}>
+                Pending upload to NetCompass Cloud
+              </div>
+            </div>
+
+            {!synced ? (
+              <button
+                onClick={handleSync}
+                disabled={syncing}
+                className="w-full py-3.5 rounded-xl font-display font-700 text-sm transition-all"
+                style={{
+                  background: syncing ? "rgba(0,212,255,0.1)" : "linear-gradient(135deg, #00d4ff, #0080ff)",
+                  color: syncing ? "#00d4ff" : "#020c1a",
+                  border: syncing ? "1px solid rgba(0,212,255,0.3)" : "none",
+                  letterSpacing: "0.04em",
+                }}
+              >
+                {syncing ? "Syncing measurements..." : "Sync Now — Upload 24 Measurements"}
+              </button>
+            ) : (
+              <div
+                className="w-full py-3.5 rounded-xl text-center font-display font-700 text-sm"
+                style={{ background: "rgba(0,230,118,0.1)", border: "1px solid rgba(0,230,118,0.3)", color: "#00e676" }}
+              >
+                ✓ 24 measurements successfully uploaded
+              </div>
+            )}
+          </div>
+
+          {/* Features */}
+          <div className="space-y-4">
+            {[
+              { icon: "💾", title: "Local Storage", desc: "Measurements stored securely on-device using IndexedDB. No data loss during connectivity gaps." },
+              { icon: "🔄", title: "Auto-Sync", desc: "Automatically uploads cached measurements when internet connectivity is restored." },
+              { icon: "📊", title: "Offline Analytics", desc: "Basic connectivity analysis available without internet — full analytics sync when online." },
+              { icon: "🔒", title: "Data Integrity", desc: "All offline measurements include cryptographic timestamps to verify data authenticity on upload." },
+            ].map((f) => (
+              <div key={f.title} className="metric-card flex gap-4">
+                <div
+                  className="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
+                  style={{ background: "rgba(0,212,255,0.06)", border: "1px solid rgba(0,212,255,0.12)" }}
+                >
+                  {f.icon}
+                </div>
+                <div>
+                  <div className="font-display font-600 text-sm mb-1" style={{ color: "#e8f4ff" }}>{f.title}</div>
+                  <div style={{ color: "#7090b0", fontSize: "0.78rem", lineHeight: 1.5 }}>{f.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
