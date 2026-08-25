@@ -1,0 +1,143 @@
+📡 NetCompass
+Location-Aware Cellular Connectivity Intelligence Platform
+> **Measure. Analyze. Discover Better Connectivity.**
+NetCompass transforms cellular network measurements into actionable connectivity intelligence for tourists, travelers, remote workers, field engineers, and tourism authorities — helping people find better signal, wherever they are.
+![Status](https://img.shields.io/badge/status-prototype-blue)
+![Platform](https://img.shields.io/badge/platform-web-orange)
+![License](https://img.shields.io/badge/license-MIT-green)
+---
+🌍 Overview
+Most connectivity tools only tell you the signal quality right where you're standing. NetCompass goes further.
+It measures, analyzes, and compares cellular performance in every direction around you, then tells you exactly where to go for a better connection.
+```
+MEASURE → ANALYZE → COMPARE → RECOMMEND → RECORD → MAP → LEARN
+```
+NetCompass is not tied to a single city. It's a general-purpose platform that adapts to any searchable location — cities, hill stations, coastal towns, rural belts, or remote tourist destinations.
+---
+✨ Core Innovation — Directional Cellular Intelligence
+Instead of a single connectivity score, NetCompass scans 8 directions around the user and highlights the strongest one.
+Direction	Score
+North	62
+North-East	74
+East	93 ⭐
+South-East	81
+South	65
+South-West	49
+West	57
+North-West	71
+> 🧭 **Recommended:** *"Move toward the East for improved cellular connectivity."*
+---
+📍 Dynamic, Location-Aware by Design
+NetCompass detects the user's current location (with permission) and lets them independently explore any destination before traveling there — without changing their real-world location context.
+Concept	Meaning
+Current Location	Where the user physically is right now
+Explore Destination	A place the user wants to research before visiting
+Example: Current Location: Coimbatore → Explore Destination: Ooty
+If location access is denied, the app gracefully falls back to manual search — it never breaks.
+A single global location state drives every screen in the app (dashboard, scanner, heatmap, analytics, history, tourism assistant), so nothing stays hard-coded to one place.
+---
+🧩 Key Features
+📊 Current Connectivity Dashboard — Live score, network type, signal strength, speed, latency, packet loss, and best direction at a glance
+🧭 360° Connectivity Scanner — Interactive compass scan across 8 directions with an animated sweep and a clear recommendation
+🗺️ Cellular Connectivity Heatmap — Interactive map with color-coded coverage points, filterable by network, metric, time range, and layer
+⚠️ Connectivity Gap Detection — Flags consistently weak zones and recommends how far/which direction to move
+🧳 Tourist Connectivity Assistant — One-tap "Find Better Connectivity" with an animated directional guide
+📈 Reliability Score — Transparent, weighted scoring model (signal, speed, latency, packet loss, stability)
+🕒 Connectivity History — Time-series charts across multiple locations, filterable by date range
+🔬 Network Performance Analytics — Aggregate stats and trend charts across all tracked locations
+⚖️ Location Comparison — Side-by-side connectivity comparison across tourist destinations
+🌐 Community Connectivity Network (planned) — Crowdsourced measurement pipeline feeding a shared heatmap
+🔌 Hardware Integration (planned) — ESP32 + cellular modem measurement unit for real-world data collection
+📴 Offline Mode (planned) — Local measurement caching with automatic sync on reconnect
+🤖 Future AI (planned) — Coverage prediction, anomaly detection, and intelligent tourism routing
+---
+🧠 Who It's For
+User	Use Case
+Tourists	Find better-connected areas nearby
+Travelers	Understand connectivity before setting off
+Remote Workers	Locate reliable spots to work from
+Field Engineers	Collect structured network measurements
+Tourism Authorities	Identify and address connectivity gaps
+Network Planners	Analyze aggregated real-world measurement data
+---
+🗺️ Product Journey
+```
+WHERE AM I?
+   ↓
+WHAT IS MY CONNECTIVITY?
+   ↓
+WHICH DIRECTION IS BETTER?
+   ↓
+WHERE ARE THE CONNECTIVITY GAPS?
+   ↓
+WHAT IS THE BEST CONNECTIVITY ZONE?
+   ↓
+HOW RELIABLE IS THE NETWORK?
+   ↓
+HOW HAS CONNECTIVITY CHANGED OVER TIME?
+   ↓
+WHICH DESTINATION HAS BETTER CONNECTIVITY?
+   ↓
+CAN WE BUILD A CONNECTIVITY INTELLIGENCE MAP?
+   ↓
+CAN FUTURE AI PREDICT CONNECTIVITY?
+```
+---
+🚀 Roadmap — From Prototype to Product
+Phase	Milestone
+1	Software dashboard (current prototype, sample data)
+2	ESP32 + cellular modem measurement unit
+3	Real-time measurement collection
+4	Cloud data platform
+5	Tourist connectivity heatmaps at scale
+6	Crowdsourced connectivity intelligence
+7	AI-based coverage prediction
+---
+🔌 Future Hardware — NetCompass Measurement Unit
+```
+Cellular Network → Cellular Modem → ESP32 → Measurement Processing → API / Cloud → NetCompass Dashboard
+```
+Components: ESP32 · Cellular Modem · Antenna · Power Supply
+Captured metrics: network type, signal strength & quality, cell info, download/upload speed, latency, packet loss, direction, timestamp
+---
+🎨 Design Language
+Dark navy background with cyan / electric-blue accents
+Green = Excellent · Yellow = Moderate · Red = Poor
+Glassmorphism, rounded cards, subtle shadows
+Clean data visualization, minimal and readable
+Fully responsive — desktop, laptop, and mobile
+---
+⚠️ Prototype Disclaimer
+NetCompass is currently a software prototype using sample/demo data. Values shown are illustrative and location-specific datasets are used to demonstrate how the system adapts across places. The architecture is designed so sample data can later be replaced by live measurements from real hardware, with no structural changes needed.
+All AI-related features (coverage prediction, anomaly detection, smart routing) are labeled Future Development and are not currently implemented.
+---
+🔒 Privacy
+Location access is requested explicitly and only used to personalize the experience
+If denied, users can manually search/select a destination
+Precise GPS coordinates are not unnecessarily stored — approximate city/area data is used where possible
+---
+🛠️ Tech Stack
+> _Update this section with your actual implementation details._
+Frontend: `TBD (e.g., React / Next.js)`
+Styling: `TBD (e.g., Tailwind CSS)`
+Maps: `TBD (e.g., Leaflet / Mapbox)`
+Charts: `TBD (e.g., Recharts / Chart.js)`
+Backend / Data: `TBD`
+Future Hardware: ESP32 + Cellular Modem
+---
+📦 Getting Started
+```bash
+git clone https://github.com/<your-username>/netcompass.git
+cd netcompass
+npm install
+npm run dev
+```
+---
+🤝 Contributing
+Contributions, ideas, and feedback are welcome! Feel free to open an issue or submit a pull request.
+📄 License
+This project is licensed under the MIT License — see the LICENSE file for details.
+---
+<p align="center">
+  <b>NetCompass</b> — Built for a future where no traveler is left disconnected.
+</p>
